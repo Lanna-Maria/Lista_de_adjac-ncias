@@ -21,6 +21,10 @@ Linguagem: Python.<br>
 
 <h3>Resultados</h3><br>
 
-![Saida do Código](https://github.com/user-attachments/assets/0e1c6a56-39bb-4158-a11a-facc18bf5988)
+![Saida do Código](https://github.com/user-attachments/assets/0e1c6a56-39bb-4158-a11a-facc18bf5988)<br>
+<br>![Grafo gerado](https://github.com/user-attachments/assets/460bdc04-2e12-4df2-8204-07eba54d1a70)
+
+
+
 
 
