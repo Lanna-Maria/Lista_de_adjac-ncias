@@ -18,3 +18,9 @@ Construção de grafos por meio de lista de adjacências.<br>
 
 <h3>Tecnologias utilizadas</h3>
 Linguagem: Python.<br>
+
+<h3>Resultados</h3><br>
+
+![Saida do Código](https://github.com/user-attachments/assets/0e1c6a56-39bb-4158-a11a-facc18bf5988)
+
+
