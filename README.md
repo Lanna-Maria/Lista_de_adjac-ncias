@@ -20,10 +20,55 @@ Construção de grafos por meio de lista de adjacências.<br>
 Linguagem: Python.<br>
 
 <h3>Resultados</h3><br>
-<h2>inst-5</h2><br>
+<h4>inst-13</h4>
+<h5>Lista de Adjacência</h5>
 
-![Saida do Código](https://github.com/user-attachments/assets/0e1c6a56-39bb-4158-a11a-facc18bf5988)<br>
-<br>![Grafo gerado](https://github.com/user-attachments/assets/460bdc04-2e12-4df2-8204-07eba54d1a70)
+<img src="https://github.com/user-attachments/assets/c203448d-fd62-4cea-bac7-89dfdf2daf00" width="400"><br>
+
+ <h4>Grafo Gerado</h4>
+
+<img src="https://github.com/user-attachments/assets/ded5ba82-18e1-4b76-94e7-bab82b54ba7a" width="500"><br>
+
+<h4>inst-5</h4>
+<h5>Lista de Adjacência</h5>
+
+<img src="https://github.com/user-attachments/assets/b2c97203-c197-4725-958f-bf9e1a704851" width="400"><br>
+
+<h4>Grafo Gerado</h4>
+
+<img src="https://github.com/user-attachments/assets/460bdc04-2e12-4df2-8204-07eba54d1a70" width="500"><br>
+
+<h4>inst-5.2</h4>
+<h5>Lista de Adjacência</h5>
+
+<img src="https://github.com/user-attachments/assets/1f1f06d3-9ac2-4dee-a00e-b6ce4c688415" width="400"><br>
+
+ <h4>Grafo Gerado</h4>
+
+<h4>inst-5.3</h4>
+<h5>Lista de Adjacência</h5>
+
+<img src="https://github.com/user-attachments/assets/064eea78-2546-412d-b1d0-b457c799bff6" width="400"><br>
+
+
+<h4>Grafo Gerado</h4>
+
+<h4>inst-7</h4>
+<h5>Lista de Adjacência</h5>
+
+<img src="https://github.com/user-attachments/assets/6bfa9d01-a6dc-4552-b5f7-a3a9df1707ab" width="400"><br>
+
+<h4>Grafo Gerado</h4>
+
+<h4>inst-9</h4>
+<h5>Lista de Adjacência</h5>
+
+<img src="https://github.com/user-attachments/assets/84e1e3b6-33b4-4493-b7d3-f7619762bb39" width="400"><br>
+
+<h4>Grafo Gerado</h4>
+
+
+
 
 
 
