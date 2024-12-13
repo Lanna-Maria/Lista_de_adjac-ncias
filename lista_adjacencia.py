@@ -1,69 +1,66 @@
-import networkx as nx  # Importa a biblioteca NetworkX, usada para manipulação e visualização de grafos
-import matplotlib.pyplot as plt  # Importa o Matplotlib para visualização gráfica do grafo
+# Importa as bibliotecas necessárias
+import networkx as nx  # Para manipulação e análise de grafos
+import matplotlib.pyplot as plt  # Para visualização do grafo
+import argparse  # Para manipulação de argumentos da linha de comando
 
-def ler_grafo(nome_arquivo):
-    """Carrega o grafo a partir de um arquivo no formato especificado."""
-    with open(nome_arquivo, 'r') as arquivo:  # Abre o arquivo no modo leitura
-        n = int(arquivo.readline().strip())  # Lê a primeira linha que contém o número de vértices e converte para inteiro
-        grafo = {i: [] for i in range(1, n + 1)}  # Cria a estrutura de dados (inicialmente vazias).onde as chaves são os vértices e os valores são listas de arestas, (1, n + 1) cria uma sequencia de 1 ate infinito.
+# Função para ler o grafo de um arquivo
+def ler_grafo(inst):
+    with open(inst, 'r') as arquivo:  # Abre o arquivo especificado
+        n = int(arquivo.readline().strip())  # Lê a primeira linha e obtém o número de vértices (n)
+        grafo = {i: [] for i in range(1, n + 1)}  # Cria um dicionário onde as chaves são os vértices e os valores são listas vazias para armazenar as arestas
 
-        # Lê as arestas e seus pesos
-        for linha in arquivo:  # Itera pelas linhas restantes do arquivo
-            x, y, z = linha.split()  # Divide a linha em três partes: dois vértices e o peso da aresta
-            x, y = int(x), int(y)  # Converte os vértices para inteiros
-            z = int(z)  # Converte o peso da aresta para um inteiro
-            
-            # Adiciona as arestas no grafo
-            grafo[x].append((y, z))  # Adiciona uma aresta de x para y com peso z
-            grafo[y].append((x, z))  # Como o grafo é não direcionado, também adiciona a aresta de y para x com o mesmo peso
+        # Lê as linhas subsequentes do arquivo
+        for linha in arquivo:
+            linha = linha.strip()  # Remove espaços em branco desnecessários
+            if linha:  # Se a linha não estiver vazia
+                x, y, z = map(int, linha.split())  # Lê os valores das arestas (x, y) e peso (z)
+                grafo[x].append((y, z))  # Adiciona a aresta (x, y) com peso z ao vértice x
+                grafo[y].append((x, z))  # Adiciona a aresta (y, x) com peso z ao vértice y (grafo não direcionado)
+    return grafo  # Retorna o grafo lido
 
-    return grafo  # Retorna o grafo como um dicionário
+# Função para exibir o grafo de forma textual
+def exibir_grafo(grafo):
+    for vertice, arestas in grafo.items():  # Para cada vértice e suas arestas
+        print(f"{vertice}: {arestas}")  # Exibe o vértice e suas arestas associadas
 
-def exibir_grafo(grafo, representacao='adjacente'):
-    """Exibe o grafo na forma de lista de adjacência ou lista de arestas."""
-    if representacao == 'adjacente':  # Se a representação for adjacente
-        for vertice, arestas in grafo.items():  # Itera sobre os vértices e suas arestas
-            print(f"{vertice}: {arestas}")  # Exibe o vértice e suas arestas
-    elif representacao == 'arestas':  # Se a representação for arestas
-        arestas = set()  # Cria um conjunto para armazenar as arestas e evitar duplicatas
-        for vertice, adjacentes in grafo.items():  # Itera sobre os vértices e suas listas de adjacência
-            for destino, peso in adjacentes:  # Itera sobre os destinos e pesos das arestas
-                if (destino, vertice, peso) not in arestas:  # Se a aresta reversa não estiver no conjunto
-                    arestas.add((vertice, destino, peso))  # Adiciona a aresta ao conjunto
-        for aresta in arestas:  # Itera sobre as arestas únicas
-            print(f"Aresta: {aresta[0]} -> {aresta[1]} com peso {aresta[2]}")  # Exibe a aresta e seu peso
-    else:  # Caso a representação não seja reconhecida
-        print("Representação não reconhecida!")  # Exibe uma mensagem de erro
-
+# Função para visualizar o grafo graficamente
 def visualizar_grafo(grafo):
-    """Visualiza o grafo usando NetworkX e Matplotlib."""
-    G = nx.Graph()  # Cria um objeto grafo vazio usando NetworkX
+    G = nx.Graph()  # Cria um grafo vazio utilizando a biblioteca NetworkX
+    for vertice, adjacentes in grafo.items():  # Para cada vértice e seus vértices adjacentes
+        for destino, peso in adjacentes:  # Para cada destino e peso associado à aresta
+            G.add_edge(vertice, destino, weight=peso)  # Adiciona a aresta ao grafo NetworkX com o peso
 
-    # Adiciona as arestas ao grafo do NetworkX
-    for vertice, adjacentes in grafo.items():  # Itera sobre os vértices e suas adjacências
-        for destino, peso in adjacentes:  # Itera sobre os destinos e pesos das arestas
-            G.add_edge(vertice, destino, weight=peso)  # Adiciona as arestas ao grafo do NetworkX, com o peso associado
+    pos = nx.spring_layout(G)  # Define o layout para a posição dos vértices (distribuição "spring")
+    labels = nx.get_edge_attributes(G, 'weight')  # Obtém os pesos das arestas
 
-    # Configurações para exibir os pesos das arestas
-    pos = nx.spring_layout(G)  # Gera uma disposição das posições dos vértices usando o layout de mola
-    labels = nx.get_edge_attributes(G, 'weight')  # Obtém os pesos das arestas do grafo
-
-    plt.figure(figsize=(8, 6))  # Cria uma figura com o tamanho especificado
-    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=10, font_weight='bold', edge_color='gray')  # Desenha o grafo com a posição e estilos definidos
+    # Configura a visualização com matplotlib
+    plt.figure(figsize=(8, 6))  # Define o tamanho da figura
+    nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, font_size=10, font_weight='bold', edge_color='gray')  # Desenha o grafo
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, font_size=8)  # Desenha os rótulos das arestas com os pesos
-    plt.title("Visualização do Grafo", fontsize=16)  # Define o título da visualização
-    plt.show()  # Exibe o gráfico
+    plt.title("Visualização do Grafo", fontsize=16)  # Título da visualização
+    plt.show()  # Exibe o grafo
 
-# Exemplo de uso:
-grafo = ler_grafo("arquivo.g")  # Carrega o grafo a partir do arquivo especificado
+# Função principal que gerencia os argumentos da linha de comando
+def main():
+    # Define os argumentos que serão passados via linha de comando
+    parser = argparse.ArgumentParser(description="Manipulação de grafos")
+    parser.add_argument("comando", choices=["read", "show", "visualize"], help="Comando a ser executado")
+    parser.add_argument("arquivo", help="Nome da inst do grafo")  # Argumento que recebe o nome do arquivo
+    args = parser.parse_args()  # Faz o parsing dos argumentos
 
-# Exibe o grafo em forma de lista de adjacência
-exibir_grafo(grafo, "adjacente")  # Exibe o grafo como uma lista de adjacência
-print()  # Quebra de linha
+    # Carrega o grafo uma única vez a partir do arquivo
+    grafo = ler_grafo(args.arquivo)
 
-# Exibe o grafo em forma de lista de arestas
-exibir_grafo(grafo, "arestas")  # Exibe o grafo como uma lista de arestas
-print()  # Quebra de linha
+    # Executa o comando conforme o argumento passado
+    if args.comando == "read":  # Se o comando for 'read'
+        print(f"'{args.arquivo}' carregada com sucesso!")  # Informa que o grafo foi carregado
 
-# Visualiza o grafo com NetworkX
-visualizar_grafo(grafo)  # Visualiza o grafo usando a função de visualização do NetworkX
+    elif args.comando == "show":  # Se o comando for 'show'
+        exibir_grafo(grafo)  # Exibe o grafo de forma textual
+
+    elif args.comando == "visualize":  # Se o comando for 'visualize'
+        visualizar_grafo(grafo)  # Exibe o grafo graficamente
+
+# Este bloco garante que o código seja executado somente se for chamado diretamente
+if __name__ == "__main__":
+    main()  # Chama a função principal
